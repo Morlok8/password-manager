@@ -6,7 +6,7 @@
     const inputProps = defineProps<{
         type: string,
         name: string,
-        class?: string
+        class?: string,
     }>();
 </script>
 

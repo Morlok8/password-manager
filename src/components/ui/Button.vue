@@ -17,10 +17,5 @@
 </script>
 
 <template>
-  <!--v-on:click="$emit('buttonData.action')"-->
-    <!--<n-button v-bind:type="buttonData.type"  > 
-      
-    </n-button>-->
-    <button v-bind:class = "buttonData.class" v-on:click="clickHandler"> {{buttonData.name}} </button>
-  <!--<button v-on:click="clickHandler">{{ buttonData.name }} </button>-->
+    <button v-bind:class = "buttonData.class" v-on:click.prevent="clickHandler"> {{buttonData.name}} </button>
 </template>

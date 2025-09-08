@@ -6,5 +6,7 @@ export interface User{
     password: string;
     tags: string;
     comment: string;
+    favorite: boolean;
     date: Date;
+    //[key: string]: string | number | boolean | Date; 
 }
