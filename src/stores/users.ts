@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import type { User } from '../interfaces/user'; 
+import { pageCalculateService, addUserService } from '../services/users/userStoreService';
  
 export const useUsersStore = defineStore('users', {
     state: () => {
@@ -72,17 +73,8 @@ export const useUsersStore = defineStore('users', {
         },
         
         addUser(user: User){
-            if(this.userList.length > 0){
-                let max = this.userList.reduce(function(prev: User, current: User) {
-                    return (prev && prev.id > current.id) ? prev : current
-                }); 
-                user.id = max.id + 1;
-            }
-            else{
-                user.id = 1;
-            }           
-            this.userList.push(user);
-            this.setUsers(this.userList);     
+            let userListAdded = addUserService(user, this.userList);
+            this.setUsers(userListAdded);     
             //localStorage.setItem('users', JSON.stringify(this.userList));
         },
         editUser(){
@@ -100,7 +92,8 @@ export const useUsersStore = defineStore('users', {
         filterUsers(filter: string, filterValue: string){
             let userListFiltered = this.userList.filter(user =>
                 {
-                    return user[filter].toLowerCase().includes(filterValue);
+                    if(typeof filter === 'string')
+                        return user[filter as keyof User].toString().toLowerCase().includes(filterValue);
                 }
             );
             this.setFilteredUsers(userListFiltered);
@@ -108,26 +101,18 @@ export const useUsersStore = defineStore('users', {
         unsetFilterUsers(){
             this.userListFiltered = [];
         },
-
-        pageCalculate(){
-            let start = this.currentPage * this.usersPerPage;
-            let end = (this.currentPage * this.usersPerPage) + this.usersPerPage;
-            return this.userList.slice(start, end);
-        },
         pageSet(){
-            console.log('set');
-            let users = this.pageCalculate();
+            let users = pageCalculateService(this.currentPage, this.usersPerPage, this.userList);//this.pageCalculate();
             this.setUsersCurrent(users);
         },
         pageIncrease(){
-            console.log(this.currentPage, this.totalPages);
             if(this.currentPage < this.totalPages){
-                this.currentPage = this.currentPage + 1;
-                this.pageSet();
+                //if(this.totalPages!== 2 && this.currentPage!==1){
+                    this.currentPage = this.currentPage + 1;
+                    this.pageSet();
+                    console.log(this.currentPage, this.totalPages);
+                //}
             }
-            else{
-                console.log('cant increase');
-            } 
         },
         pageDecrease(){
             if(this.currentPage > 0){
@@ -135,6 +120,5 @@ export const useUsersStore = defineStore('users', {
                 this.pageSet();
             }   
         },
-        
     }
 });

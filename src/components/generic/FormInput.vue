@@ -6,6 +6,7 @@
         id: string,
         name: string,
         label: string,
+        type?: string,
     }>();
     //const  = defineProps<string>();
 
@@ -17,5 +18,5 @@
 
 <template>
      <label v-bind:for="id" v-bind:class="labelClass">{{ label }}</label>
-     <Input type = "text" v-bind:name="name" v-bind:class="inputClass" v-model="value"/>
+     <Input v-bind:type = "type" v-bind:name="name" v-bind:class="inputClass" v-model="value"/>
 </template>

@@ -3,6 +3,8 @@
     import { ref, computed  } from 'vue'
     import FormInput from '../generic/FormInput.vue';
     import Button from '../ui/Button.vue';
+    import PasswordInput from '../generic/PasswordInput.vue';
+
     import type { User } from '../../interfaces/user'; 
 
     const formName = ref<string>('name');
@@ -46,14 +48,12 @@
             login: formLogin.value,
             password: formPassword.value,
             comment: formComment.value,
-            tags: "default",
+            tags: formTags.value,
             favorite: formCheckbox.value,
             date: new Date()
         };
         if(validateForm())
             userStore.addUser(user);
-        else
-            alert('Not all required fields are filled');
     }
     function validateForm(){
         if(validator.value)
@@ -61,13 +61,14 @@
         else
             return false;
     }
+    /*function displayPassword(){
+        formPasswordVisible.value = !formPasswordVisible.value;
+    }*/
 </script>
 
 <template>
-    <form class="max-w-lg mx-auto">
+    <div class="max-w-lg mx-auto">
         <div class="mb-1">
-            <!--<label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Название:</label>
-            <input type = "text" id="name" name="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" v-model="name">-->
             <FormInput id="name" name="name" label="Название:" v-model="formName"/>
         </div> 
         <div class="mb-5">
@@ -86,7 +87,7 @@
             </div> 
             
             <div class="mb-1 w-1/2">
-                <FormInput id="password" name="password" label="Пароль:" v-model="formPassword"/>
+                <PasswordInput id="password" name="password" label="Пароль:" v-model="formPassword"/>
             </div> 
         </div>
 
@@ -114,9 +115,7 @@
             </div>
             <label for="favorite" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Избранное</label>
         </div>
-        <!--<button v-on:click.prevent="addUser">
-            Добавить
-        </button>-->
+
         <Button class='bg-green-600 text-white rounded-sm p-2' name="Сохранить" :onClick="addUser"/>
-    </form>
+    </div>
 </template>

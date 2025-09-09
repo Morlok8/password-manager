@@ -1,8 +1,5 @@
 <script setup lang="ts">
-  import { NButton } from 'naive-ui'
   import { defineProps } from 'vue';
-  //import type { User } from '../../interfaces/user'; 
-
 
   const buttonData = defineProps<{
     name: string,
