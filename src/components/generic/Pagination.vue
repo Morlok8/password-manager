@@ -32,7 +32,7 @@
 </script>
 
 <template>
-    <div class = "flex justify-center gap-1">
+    <div class = "flex justify-center gap-3 pt-2">
         <Button name="-" class='bg-green-600 text-white rounded-sm p-1 pl-3 pr-3' v-bind:onClick="()=>decreasePage()" />
         <select name="pagination" class='dark:text-white dark:bg-slate-800' v-model="currentPage" v-on:change="pageChange()">
             <option v-for="page in totalPages" v-bind:value=Number(page)-1>
