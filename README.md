@@ -1,5 +1,36 @@
-# Vue 3 + TypeScript + Vite
+<h1>Проект Управление паролями</h1>
+<h2>Описание</h2>
+<p>Проект позволяет управлять списком пользователей с паролями. Он состоит из двух страниц - формы добавления пользователей и списка добавленных пользователей. 
+Выдается 5 пользователей на страницу. 
+Фильтрация осуществляется по имени пользователя, логину, url и тегам.
+Теги вводятся через ";", в противном случая вся введенная строка будет считаться одним тегом.</p>
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+<h2>Используемый стек</h2>
+<p>Проект реализован на Vue.js с использованием Vite, Pinia и VueRouter. Для стилизации используется Tailwind и Iconify</p>
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+<h2>Описание структуры</h2>
+<p>
+  <h3>Функционал store</h3>
+  <ul>
+      <li>За работу с данными пользователями отвечает store users на Pinia. </li>
+      <li>Пользователи записываются в localStorage. </li>
+      <li>Функции сложной фильтрации вынесены в папку services, в частности users, в которой находяться некоторый функции вызываемые store users.</li>
+  </ul>
+  <h3>Функционал front-end</h3>
+  <ul>
+      <li>Основные компоненты вызываются через App.vue; </li>
+      <li>Две основных страницы хранятся в папке pages; </li>
+      <li>Оттуда вызываются компоненты из папки components/containers - это основные рабочие компоненты, к примеру PasswordForm.vue (форма добавления нового пользователя), UsersList.vue (список пользователей) и т.д.; </li>
+      <li>В компонентах containers вызываются компоненты из generic, такие как PasswordInput;</li>
+      <li>В компонентах generic вызываются компоненты из ui, самые минимальные компоненты по типу input, button и т.д.</li>
+  </ul>
+  <h2>Установка</h2>
+  <p>
+    <ol>
+        <li> Скопируйте URL репозитория; </li>
+        <li> Выберите нужную директорию локального сервера в командной строке, ввести git clone; </li>
+        <li> Выполните команду npm install; </li>
+        <li> Выполните команду npm run dev. </li> 
+    </ol>
+
+  </p>
