@@ -56,27 +56,24 @@
         userInfo.editFunction();
     }
     function deleteHandler(){
-        if (confirm("Do you want to proceed?")) {
+        if (confirm("Вы точно хотите удалить пользователя?")) {
             userInfo.deleteFunction();
         } 
     }
 
     function showTags(tags: string | undefined): Array<string> | string{
-        let arr, arr2 = [] as string[];
+        let array, arrayResult = [] as string[];
         if(tags && tags.length !== 0)
         {
-            arr = tags.split(";");
-            arr.forEach((value) => {
+            array = tags.split(";");
+            array.forEach((value) => {
                 if(value.trim())
-                    arr2.push(value.trim());
+                    arrayResult.push(value.trim());
             });
-            console.log(arr);
-            console.log(arr2);
-            return arr2;
+            return arrayResult;
         }
         else 
-           return "no tags found";
-        
+           return "Теги не найдены";
     }
 </script>
 
