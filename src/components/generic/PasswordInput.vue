@@ -5,9 +5,9 @@
     import {defineProps, defineModel, ref} from 'vue';
 
     defineProps<{
-        id: string,
+        id?: string,
         name: string,
-        label: string,
+        label?: string,
         type?: string,
         //formPasswordVisible: boolean,
 
@@ -41,7 +41,7 @@
      <label v-bind:for="id" v-bind:class="labelClass">{{ label }}</label>
      <div class = "flex">
         <Input v-bind:type="!formPasswordVisible ? 'password' : 'text'" v-bind:name="name" v-bind:class="inputClass" v-model="password"/>
-        <ButtonIcon v-bind:icon="!formPasswordVisible ? 'streamline:visible' : 'streamline-flex:invisible-1'" class='bg-slate-600 text-white rounded-sm p-1 ml-3' v-bind:onClick="()=>displayPassword()"/>
-        <ButtonIcon icon="solar:clipboard-bold" class='bg-slate-600 text-white rounded-sm p-1 ml-3' v-bind:onClick="()=>copyClick()"/>
+        <ButtonIcon v-bind:icon="!formPasswordVisible ? 'streamline:visible' : 'streamline-flex:invisible-1'" class='bg-slate-600 hover:bg-slate-700 cursor-pointer text-white rounded-sm p-1 ml-3' v-bind:onClick="()=>displayPassword()"/>
+        <ButtonIcon icon="solar:clipboard-bold" class='bg-slate-600 hover:bg-slate-700 cursor-pointer text-white rounded-sm p-1 ml-3' v-bind:onClick="()=>copyClick()"/>
      </div>
 </template>

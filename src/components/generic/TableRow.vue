@@ -6,6 +6,7 @@
     import ButtonIcon from '../ui/ButtonIcon.vue';
     import Input from '../ui/Input.vue';
     import Textarea from '../ui/Textarea.vue';
+    import PasswordInput from './PasswordInput.vue';
 
     //const edit = ref(false);
 
@@ -37,19 +38,27 @@
 
     const userStore = useUsersStore();
 
-    const tdClass = "border border-gray-300 p-4 text-gray-500 dark:border-gray-700 dark:text-gray-400";
+    const tdClass = "border border-gray-300 p-4 text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200";
 
     function saveEdit(id: number){
         userStore.editUser();
+        /*if(editableUsers.value)
+            editableUsers.value = editableUsers.value.filter(user => user !== id);*/
+        unsetEditMode(id);
+    }
+
+    function unsetEditMode(id: number){
         if(editableUsers.value)
-            editableUsers.value = editableUsers.value.filter(user => user !== id);
+            editableUsers.value = editableUsers.value.filter(user => user !== id)
     }
 
     function editHandler(){
         userInfo.editFunction();
     }
     function deleteHandler(){
-        userInfo.deleteFunction();
+        if (confirm("Do you want to proceed?")) {
+            userInfo.deleteFunction();
+        } 
     }
 
     function showTags(tags: string | undefined): Array<string> | string{
@@ -57,13 +66,17 @@
         if(tags && tags.length !== 0)
         {
             arr = tags.split(";");
-            arr.forEach( (value) => {
-                arr2.push(value.trim());
+            arr.forEach((value) => {
+                if(value.trim())
+                    arr2.push(value.trim());
             });
+            console.log(arr);
+            console.log(arr2);
+            return arr2;
         }
         else 
            return "no tags found";
-        return arr2;
+        
     }
 </script>
 
@@ -88,7 +101,7 @@
        <span v-else>{{ userInfo.login }}</span>
     </td>
     <td v-bind:class = tdClass>
-       <Input type = "password" name="password" v-model="password" v-if="userInfo.edit"/>
+       <PasswordInput name="password" v-model="password" v-if="userInfo.edit"/>
        <span v-else> ******** </span>
     </td>
     <td v-bind:class = tdClass>
@@ -120,12 +133,14 @@
     </td>
     <!-- <button v-on:click="saveEdit(userInfo.id)">Сохранить</button>-->
     <td v-if="userInfo.edit" v-bind:class = tdClass>
-        <Button name="Сохранить" class='bg-green-600 text-white rounded-sm p-1' v-bind:onClick="()=>saveEdit(userInfo.id)" />
-        <button>Отменить</button>
+        <div class = "flex gap-2">
+            <Button name="Сохранить" class='bg-green-600 hover:bg-green-700 text-white rounded-sm p-1 cursor-pointer' v-bind:onClick="()=>saveEdit(userInfo.id)" />
+            <Button name="Отменить" class='bg-red-600 hover:bg-red-700 text-white rounded-sm p-1 cursor-pointer' v-bind:onClick="()=>unsetEditMode(id)"/>
+        </div>
     </td>
     <td v-else v-bind:class = tdClass>
         <!-- <Button name="Редактировать" class="bg-blue-500 text-white rounded-sm p-1" type = "error"  v-bind:onClick="() => editHandler()"/> -->
-        <ButtonIcon icon="mdi:account-edit-outline" class='bg-blue-500 text-white rounded-sm p-1' v-bind:onClick="()=>editHandler()"/>
-        <ButtonIcon icon="mdi:trash-can" class='bg-red-500 text-white rounded-sm p-1 ml-3' v-bind:onClick="()=>deleteHandler()"/>
+        <ButtonIcon icon="mdi:account-edit-outline" class='bg-blue-500 hover:bg-blue-700 text-white rounded-sm p-1 cursor-pointer' v-bind:onClick="()=>editHandler()"/>
+        <ButtonIcon icon="mdi:trash-can" class='bg-red-500 hover:bg-red-700 text-white rounded-sm p-1 ml-3 cursor-pointer' v-bind:onClick="()=>deleteHandler()"/>
     </td>
 </template>

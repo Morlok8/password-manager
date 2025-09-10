@@ -52,8 +52,16 @@
             favorite: formCheckbox.value,
             date: new Date()
         };
-        if(validateForm())
+        if(validateForm()){
+            if(formTags.value && !formTags.value.endsWith(";"))
+            {
+                user.tags = formTags.value+";";     
+                //console.log(formTags.value);
+            }
             userStore.addUser(user);
+            alert('Пользователь создан!');
+        }
+            
     }
     function validateForm(){
         if(validator.value)
@@ -61,13 +69,12 @@
         else
             return false;
     }
-    /*function displayPassword(){
-        formPasswordVisible.value = !formPasswordVisible.value;
-    }*/
 </script>
 
 <template>
+    
     <div class="max-w-lg mx-auto">
+        <h1 class="dark:text-white font-medium text-lg pb-3 pt-3">Форма добавления пользователя</h1>
         <div class="mb-1">
             <FormInput id="name" name="name" label="Название:" v-model="formName"/>
         </div> 
@@ -116,6 +123,6 @@
             <label for="favorite" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Избранное</label>
         </div>
 
-        <Button class='bg-green-600 text-white rounded-sm p-2' name="Сохранить" :onClick="addUser"/>
+        <Button class='bg-green-600 hover:bg-green-700 cursor-pointer text-white rounded-sm p-2' name="Сохранить" :onClick="addUser"/>
     </div>
 </template>

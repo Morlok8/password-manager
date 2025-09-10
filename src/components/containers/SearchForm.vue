@@ -3,16 +3,24 @@
     import { useUsersStore } from '../../stores/users';
     import FormInput from '../generic/FormInput.vue';
     import Button from '../ui/Button.vue';
-    import type { User } from '../../interfaces/user'; 
+    //import type { User } from '../../interfaces/user'; 
 
     const userStore = useUsersStore();
 
     const searchValue= ref<string>();
     const searchType = ref<string>();
 
+    const message = ref<string>();
+
     function searchUser(){
-        if(searchType.value && searchValue.value)
+        if(searchType.value && searchValue.value){
             userStore.filterUsers(searchType.value, searchValue.value);
+            message.value = "";
+        }
+            
+        if(!userStore.userListFiltered || userStore.userListFiltered.length === 0){
+            message.value = "Извините, по вашему запросу ничего не найдено";
+        } 
     }
     function unsetSearchUser(){
         userStore.unsetFilterUsers();
@@ -20,7 +28,7 @@
 </script>
 
 <template>
-        <div class = "flex g-3 p-3 ">
+        <div class = "flex g-3 p-3 justify-center">
             <div class="mr-3">
                 <FormInput id="search-name" name="search-name" label="Значение:" v-model="searchValue"/>
             </div>
@@ -30,11 +38,14 @@
                     <option value="name">Название</option>
                     <option value="url">URL</option>
                     <option value="login">Логин</option>
+                    <option value="tags">Тэги</option>
                 </select>
             </div>
             <Button class='bg-green-600 text-white rounded-sm p-2 self-end mr-3' name="Применить" :onClick="searchUser"/>
             <Button class='bg-green-600 text-white rounded-sm p-2 self-end' name="Отменить" :onClick="unsetSearchUser"/>
         </div>
+        <div v-if="message" class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">
+            {{ message }}
+        </div>
 
-    
 </template>

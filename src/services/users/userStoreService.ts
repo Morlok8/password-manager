@@ -22,5 +22,32 @@ function pageCalculateService(currentPage: number, usersPerPage: number, userLis
   return userList.slice(start, end);
 }
 
+// filter users based on a search input 
+function filterUsersService(filter: string, filterValue: string, userList: Array<User>): Array<User>{
+    let userListFiltered = userList.filter(user =>
+                {
+                    if(typeof filter === 'string'){
+                        if(filter === "tags"){
+                            let filterArray = filterValue.split(";");
 
-export { pageCalculateService, addUserService };
+                            let check = false;
+                            
+                            filterArray.forEach((tag) => {
+                                //return user.tags.toLowerCase().includes(tag);
+                                let t = tag.trim()+";";
+                                if(tag.trim() && user.tags.toLowerCase().includes(t))
+                                    check = true;
+                            });
+                            if(check)
+                                return user;
+                        }
+                        else
+                            return user[filter as keyof User].toString().toLowerCase().includes(filterValue);
+                    }
+                        
+                }
+            );
+    return userListFiltered;
+}
+
+export { pageCalculateService, addUserService, filterUsersService };
